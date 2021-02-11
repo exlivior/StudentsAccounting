@@ -12,9 +12,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StudentsAccounting.Data;
 using StudentsAccounting.Queries;
-using Microsoft.EntityFrameworkCore;
+using StudentsAccounting.Commands;
 
 namespace StudentsAccounting
 {
@@ -36,6 +37,7 @@ namespace StudentsAccounting
             services.AddDbContext<AppDbContext>();
 
             services.AddTransient<IQuery, CourseQuery>();
+            services.AddTransient<ICommand, CourseCommand>();
 
         }
 

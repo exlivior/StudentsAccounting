@@ -24,6 +24,12 @@ namespace StudentsAccounting.Queries
             return await _context.Courses.Select(x => CourseToDTO(x)).ToListAsync();
         }
 
+        public async Task<CourseDTO> GetCourse(int id)
+        {
+            var course = await _context.Courses.FindAsync(id);
+            return CourseToDTO(course);
+        }
+
         private static CourseDTO CourseToDTO(Course course) =>
             new CourseDTO
             {

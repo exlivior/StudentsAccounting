@@ -9,6 +9,7 @@ namespace StudentsAccounting.Queries
 {
     public interface IQuery
     {
-        Task <List<CourseDTO>> GetAllCourses();
+        Task<List<CourseDTO>> GetAllCourses();
+        Task<CourseDTO> GetCourse(int id);
     }
 }
