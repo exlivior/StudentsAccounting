@@ -8,6 +8,11 @@ namespace StudentsAccounting.Data
     {
         public DbSet<Course> Courses { get; set; }
 
+        public AppDbContext(DbContextOptions options)
+: base(options)
+{
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(

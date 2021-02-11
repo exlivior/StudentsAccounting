@@ -11,6 +11,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using StudentsAccounting.Data;
+using StudentsAccounting.Queries;
+using Microsoft.EntityFrameworkCore;
 
 namespace StudentsAccounting
 {
@@ -28,10 +32,11 @@ namespace StudentsAccounting
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "StudentsAccounting", Version = "v1" });
-            });
+
+            services.AddDbContext<AppDbContext>();
+
+            services.AddTransient<IQuery, CourseQuery>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,8 +45,6 @@ namespace StudentsAccounting
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StudentsAccounting v1"));
             }
 
             app.UseHttpsRedirection();
