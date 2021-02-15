@@ -6,9 +6,10 @@ using StudentsAccounting.DTOs;
 
 namespace StudentsAccounting.Commands
 {
-    public interface ICommand
+    public interface ICourseCommand
     {
-        Task CreateCourse(CourseDTO course);
-        void DeleteCourse(int id);
+        Task Create(CourseDTO courseDTO);
+       // Task Edit(CourseDTO courseDTO);
+        void Delete(int id);
     }
 }

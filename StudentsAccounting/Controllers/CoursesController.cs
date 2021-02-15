@@ -18,46 +18,58 @@ namespace StudentsAccounting.Controllers
     [ApiController]
     public class CoursesController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly IQuery _query;
-        private readonly ICommand _command;
+        private readonly AppDbContext context;
+        private readonly ICourseQuery query;
+        private readonly ICourseCommand command;
 
-        public CoursesController(AppDbContext context, IQuery query, ICommand command)
+        public CoursesController(AppDbContext context, ICourseQuery query, ICourseCommand command)
         {
-            _context = context;
-            _query = query;
-            _command = command;
+            this.context = context;
+            this.query = query;
+            this.command = command;
         }
 
         // GET: api/Courses
         [HttpGet]
-        public async Task<IActionResult> GetCourses()
+        public async Task<IActionResult> GetAll()
         {
-            var result = await _query.GetAllCourses();
+            var result = await query.GetAll();
             return Ok(result);
         }
 
         // GET: api/Courses/1
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCourse(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var result = await _query.GetCourse(id);
-            return Ok(result);
+            var result = await query.Get(id);
+            if (result != null)
+            { 
+                return Ok(result);
+            }
+            return NotFound();
         }
 
         // POST: api/Courses
         [HttpPost]
-        public async Task<IActionResult> AddCourse([FromBody] CourseDTO courseDTO)
+        public async Task<IActionResult> Post([FromBody] CourseDTO courseDTO)
         {
-            await _command.CreateCourse(courseDTO);
-            return CreatedAtAction(nameof(GetCourse), new { id = courseDTO.Id }, courseDTO);
+            await command.Create(courseDTO);
+            return Ok();
         }
+
+        //// PUT: api/Courses
+        //[HttpPut]
+        //public async Task <ActionResult> Put([FromBody] CourseDTO courseDTO)
+        //{
+        //    await command.Edit(courseDTO);
+        //    return NoContent();
+        //}
 
         // DELETE: api/Courses/1
         [HttpDelete("{id}")]
-        public ActionResult DeleteCourse(int id)
+        public ActionResult Delete(int id)
         {
-            _command.DeleteCourse(id);
+            command.Delete(id);
             return NoContent();
         }
     }

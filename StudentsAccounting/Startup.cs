@@ -32,12 +32,14 @@ namespace StudentsAccounting
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllers();
 
             services.AddDbContext<AppDbContext>();
 
-            services.AddTransient<IQuery, CourseQuery>();
-            services.AddTransient<ICommand, CourseCommand>();
+            services.AddScoped<ICourseQuery, CourseQuery>();
+            services.AddScoped<ICourseCommand, CourseCommand>();
 
         }
 

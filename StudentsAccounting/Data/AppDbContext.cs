@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StudentsAccounting.Models;
+using StudentsAccounting.Configuration;
 
 namespace StudentsAccounting.Data
 {
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : DbContext
     {
         public DbSet<Course> Courses { get; set; }
 
-        public AppDbContext(DbContextOptions options)
-: base(options)
-{
+        public AppDbContext(DbContextOptions options) : base(options)
+        {
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

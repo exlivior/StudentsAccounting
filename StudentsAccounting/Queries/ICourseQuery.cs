@@ -7,9 +7,9 @@ using StudentsAccounting.DTOs;
 
 namespace StudentsAccounting.Queries
 {
-    public interface IQuery
+    public interface ICourseQuery
     {
-        Task<List<CourseDTO>> GetAllCourses();
-        Task<CourseDTO> GetCourse(int id);
+        Task<List<CourseDTO>> GetAll();
+        Task<CourseDTO> Get(int id);
     }
 }

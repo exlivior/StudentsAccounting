@@ -1,33 +1,35 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using StudentsAccounting.Models;
 using StudentsAccounting.Data;
 using StudentsAccounting.DTOs;
 
 namespace StudentsAccounting.Queries
 {
-    public class CourseQuery : IQuery
+    public class CourseQuery : ICourseQuery
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext context;
+        private readonly IMapper mapper;
 
-        public CourseQuery(AppDbContext context) 
+        public CourseQuery(AppDbContext context, IMapper mapper) 
         {
-            _context = context;
+            this.context = context;
+            this.mapper = mapper;
         }
 
-        public async Task<List<CourseDTO>> GetAllCourses()
+        public async Task<List<CourseDTO>> GetAll()
         {
-            return await _context.Courses.Select(x => CourseToDTO(x)).ToListAsync();
+            return await context.Courses.Select(x => CourseToDTO(x)).ToListAsync();
         }
 
-        public async Task<CourseDTO> GetCourse(int id)
+        public async Task<CourseDTO> Get(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
-            return CourseToDTO(course);
+            var course = await context.Courses.FindAsync(id);
+            return mapper.Map<CourseDTO>(course);
         }
 
         private static CourseDTO CourseToDTO(Course course) =>

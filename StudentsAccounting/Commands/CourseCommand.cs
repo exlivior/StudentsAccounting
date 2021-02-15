@@ -2,39 +2,47 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using StudentsAccounting.Models;
 using StudentsAccounting.DTOs;
 using StudentsAccounting.Data;
 
 namespace StudentsAccounting.Commands
 {
-    public class CourseCommand : ICommand
+    public class CourseCommand : ICourseCommand
     {
-        private readonly AppDbContext _context;
+        private readonly DbSet<Course> courses;
+        private readonly IMapper mapper;
 
-        public CourseCommand(AppDbContext context)
+        public CourseCommand(AppDbContext context, IMapper mapper)
         {
-            _context = context;
+            courses = context.Courses;
+            this.mapper = mapper;
         }
 
-        public async Task CreateCourse(CourseDTO courseDTO)
+        public async Task Create(CourseDTO courseDTO)
         {
-            await _context.Courses.AddAsync(DTOToCourse(courseDTO));
-            await _context.SaveChangesAsync();
+            await courses.AddAsync(mapper.Map<CourseDTO, Course>(courseDTO));
         }
 
-        public void DeleteCourse(int id)
-        {
-            var course = _context.Courses.First(n => n.Id == id);
-            _context.Courses.Remove(course);
-            _context.SaveChanges();
-        }
+        //public async Task Edit(CourseDTO courseDTO)
+        //{
+        //    var course = await courses.FindAsync(courseDTO.Id);
+            
+        //    course.Title = courseDTO.Title;
+        //    course.Description= courseDTO.Description;
 
-        private static Course DTOToCourse(CourseDTO courseDTO) =>
-            new Course
+        //    await context.SaveChangesAsync();
+        //}
+
+        public void Delete(int id)
+        {
+            var course = courses.Find(id);
+            if (course != null)
             {
-                Title = courseDTO.Title,
-                Description = courseDTO.Description
-            };
+                courses.Remove(course);
+            }
+        }
     }
 }
