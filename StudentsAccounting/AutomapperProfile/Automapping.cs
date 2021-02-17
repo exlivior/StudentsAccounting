@@ -13,6 +13,7 @@ namespace StudentsAccounting.AutomapperProfile
         public Automapping()
         {
             CreateMap<Course, CourseDTO>();
+            CreateMap<CourseDTO, Course>();
         }
     }
 }

@@ -6,8 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using StudentsAccounting.Queries;
-using StudentsAccounting.Commands;
+using StudentsAccounting.Services;
 using StudentsAccounting.Data;
 using StudentsAccounting.DTOs;
 using StudentsAccounting.Models;
@@ -18,22 +17,18 @@ namespace StudentsAccounting.Controllers
     [ApiController]
     public class CoursesController : ControllerBase
     {
-        private readonly AppDbContext context;
-        private readonly ICourseQuery query;
-        private readonly ICourseCommand command;
+        private readonly ICoursesServices services;
 
-        public CoursesController(AppDbContext context, ICourseQuery query, ICourseCommand command)
+        public CoursesController(ICoursesServices services)
         {
-            this.context = context;
-            this.query = query;
-            this.command = command;
+            this.services = services;
         }
 
         // GET: api/Courses
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await query.GetAll();
+            var result = await services.GetAll();
             return Ok(result);
         }
 
@@ -41,7 +36,7 @@ namespace StudentsAccounting.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var result = await query.Get(id);
+            var result = await services.Get(id);
             if (result != null)
             { 
                 return Ok(result);
@@ -53,23 +48,23 @@ namespace StudentsAccounting.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CourseDTO courseDTO)
         {
-            await command.Create(courseDTO);
+            await services.Create(courseDTO);
             return Ok();
         }
 
-        //// PUT: api/Courses
-        //[HttpPut]
-        //public async Task <ActionResult> Put([FromBody] CourseDTO courseDTO)
-        //{
-        //    await command.Edit(courseDTO);
-        //    return NoContent();
-        //}
+        // PUT: api/Courses
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] CourseDTO courseDTO)
+        {
+            await services.Edit(courseDTO);
+            return NoContent();
+        }
 
         // DELETE: api/Courses/1
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            command.Delete(id);
+            services.Delete(id);
             return NoContent();
         }
     }

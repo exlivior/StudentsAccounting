@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using StudentsAccounting.Data;
 using StudentsAccounting.Queries;
 using StudentsAccounting.Commands;
+using StudentsAccounting.Services;
 
 namespace StudentsAccounting
 {
@@ -37,6 +38,8 @@ namespace StudentsAccounting
             services.AddControllers();
 
             services.AddDbContext<AppDbContext>();
+
+            services.AddScoped<ICoursesServices, CoursesServices>();
 
             services.AddScoped<ICourseQuery, CourseQuery>();
             services.AddScoped<ICourseCommand, CourseCommand>();

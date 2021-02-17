@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using StudentsAccounting.Models;
 using StudentsAccounting.Data;
 using StudentsAccounting.DTOs;
@@ -12,32 +13,25 @@ namespace StudentsAccounting.Queries
 {
     public class CourseQuery : ICourseQuery
     {
-        private readonly AppDbContext context;
+        private readonly IQueryable<Course> courses;
         private readonly IMapper mapper;
 
         public CourseQuery(AppDbContext context, IMapper mapper) 
         {
-            this.context = context;
+            courses = context.Courses.AsNoTracking();
             this.mapper = mapper;
         }
 
         public async Task<List<CourseDTO>> GetAll()
         {
-            return await context.Courses.Select(x => CourseToDTO(x)).ToListAsync();
+            return await courses.ProjectTo<CourseDTO>(mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         public async Task<CourseDTO> Get(int id)
         {
-            var course = await context.Courses.FindAsync(id);
-            return mapper.Map<CourseDTO>(course);
+            return await courses.ProjectTo<CourseDTO>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync(course => course.Id == id);
         }
-
-        private static CourseDTO CourseToDTO(Course course) =>
-            new CourseDTO
-            {
-                Id = course.Id,
-                Title = course.Title,
-                Description = course.Description
-            };
     }
 }

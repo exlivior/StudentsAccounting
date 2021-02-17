@@ -26,15 +26,13 @@ namespace StudentsAccounting.Commands
             await courses.AddAsync(mapper.Map<CourseDTO, Course>(courseDTO));
         }
 
-        //public async Task Edit(CourseDTO courseDTO)
-        //{
-        //    var course = await courses.FindAsync(courseDTO.Id);
-            
-        //    course.Title = courseDTO.Title;
-        //    course.Description= courseDTO.Description;
+        public async Task Edit(CourseDTO courseDTO)
+        {
+            var course = await courses.FindAsync(courseDTO.Id);
 
-        //    await context.SaveChangesAsync();
-        //}
+            course.Title = courseDTO.Title;
+            course.Description = courseDTO.Description;
+        }
 
         public void Delete(int id)
         {
