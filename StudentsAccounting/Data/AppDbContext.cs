@@ -5,18 +5,12 @@ using StudentsAccounting.Configuration;
 
 namespace StudentsAccounting.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User>
     {
         public DbSet<Course> Courses { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(
-                @"Server=(localdb)\mssqllocaldb;Database=StudentsAccounting;Integrated Security=True");
         }
     }
 }

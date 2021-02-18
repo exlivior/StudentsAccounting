@@ -30,8 +30,11 @@ namespace StudentsAccounting.Commands
         {
             var course = await courses.FindAsync(courseDTO.Id);
 
-            course.Title = courseDTO.Title;
-            course.Description = courseDTO.Description;
+            if (course != null)
+            {
+                course.Title = courseDTO.Title;
+                course.Description = courseDTO.Description;
+            }
         }
 
         public void Delete(int id)

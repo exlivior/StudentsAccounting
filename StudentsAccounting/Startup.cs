@@ -17,6 +17,11 @@ using StudentsAccounting.Data;
 using StudentsAccounting.Queries;
 using StudentsAccounting.Commands;
 using StudentsAccounting.Services;
+using StudentsAccounting.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace StudentsAccounting
 {
@@ -37,9 +42,40 @@ namespace StudentsAccounting
 
             services.AddControllers();
 
-            services.AddDbContext<AppDbContext>();
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
 
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequiredLength = 5;
+            }).AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthentication(auth =>
+            {
+                auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = Configuration["AuthSettings:Issuer"],
+                    ValidAudience = Configuration["AuthSettings:Audience"],
+                    RequireExpirationTime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AuthSettings:Key"])),
+                    ValidateIssuerSigningKey = true
+                };
+            });
+
+            services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<ICoursesServices, CoursesServices>();
+            services.AddTransient<IMailServices, MailServices>();
 
             services.AddScoped<ICourseQuery, CourseQuery>();
             services.AddScoped<ICourseCommand, CourseCommand>();
@@ -57,6 +93,8 @@ namespace StudentsAccounting
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

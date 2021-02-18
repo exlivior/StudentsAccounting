@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,7 @@ namespace StudentsAccounting.Controllers
 
         // POST: api/Courses
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Post([FromBody] CourseDTO courseDTO)
         {
             await services.Create(courseDTO);
@@ -54,6 +56,7 @@ namespace StudentsAccounting.Controllers
 
         // PUT: api/Courses
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> Put([FromBody] CourseDTO courseDTO)
         {
             await services.Edit(courseDTO);
@@ -62,6 +65,7 @@ namespace StudentsAccounting.Controllers
 
         // DELETE: api/Courses/1
         [HttpDelete("{id}")]
+        [Authorize]
         public ActionResult Delete(int id)
         {
             services.Delete(id);
