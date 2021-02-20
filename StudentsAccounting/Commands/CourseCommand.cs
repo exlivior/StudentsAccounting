@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using StudentsAccounting.Models;
+using StudentsAccounting.Entities;
 using StudentsAccounting.DTOs;
 using StudentsAccounting.Data;
 

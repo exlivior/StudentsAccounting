@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using StudentsAccounting.Models;
+using StudentsAccounting.Entities;
 using StudentsAccounting.Data;
 using StudentsAccounting.DTOs;
 

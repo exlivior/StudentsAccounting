@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using StudentsAccounting.DTOs;
-using StudentsAccounting.Models;
+using StudentsAccounting.Entities;
 
 namespace StudentsAccounting.Services
 {

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using StudentsAccounting.Models;
+using StudentsAccounting.Entities;
 using StudentsAccounting.Configuration;
+using Microsoft.AspNetCore.Identity;
 
 namespace StudentsAccounting.Data
 {
@@ -11,6 +12,11 @@ namespace StudentsAccounting.Data
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

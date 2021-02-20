@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentsAccounting.Data;
 
 namespace StudentsAccounting.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210220124907_rolesn")]
+    partial class rolesn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace StudentsAccounting.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8997d93d-0a09-4ccb-b13e-1d33d4b72d31",
-                            ConcurrencyStamp = "516ef96c-35da-4ccf-9669-07a8faae3517",
+                            Id = "e7f8cc30-2ca4-4d32-ad91-a1e74db94284",
+                            ConcurrencyStamp = "b76a376e-e8f8-4244-a171-6c2fe003d32b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8f18477b-90e9-4830-a2d9-ad76a2eff051",
-                            ConcurrencyStamp = "076be2b2-2938-4fbb-9ef7-6e41a19118df",
+                            Id = "d9b5a819-9d6a-4720-8622-22a45acc2a25",
+                            ConcurrencyStamp = "be560d11-a9e6-4050-8200-67b964b0f9ee",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         });

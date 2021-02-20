@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using StudentsAccounting.Services;
 using StudentsAccounting.Data;
 using StudentsAccounting.DTOs;
-using StudentsAccounting.Models;
+using StudentsAccounting.Entities;
 
 namespace StudentsAccounting.Controllers
 {
@@ -47,7 +47,6 @@ namespace StudentsAccounting.Controllers
 
         // POST: api/Courses
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Post([FromBody] CourseDTO courseDTO)
         {
             await services.Create(courseDTO);
@@ -56,7 +55,6 @@ namespace StudentsAccounting.Controllers
 
         // PUT: api/Courses
         [HttpPut]
-        [Authorize]
         public async Task<ActionResult> Put([FromBody] CourseDTO courseDTO)
         {
             await services.Edit(courseDTO);

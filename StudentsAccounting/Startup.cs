@@ -17,7 +17,7 @@ using StudentsAccounting.Data;
 using StudentsAccounting.Queries;
 using StudentsAccounting.Commands;
 using StudentsAccounting.Services;
-using StudentsAccounting.Models;
+using StudentsAccounting.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -73,6 +73,8 @@ namespace StudentsAccounting
                 };
             });
 
+            services.AddTransient<AppDbSeeder>();
+
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<ICoursesServices, CoursesServices>();
             services.AddTransient<IMailServices, MailServices>();
@@ -83,7 +85,7 @@ namespace StudentsAccounting
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbSeeder seeder)
         {
             if (env.IsDevelopment())
             {
@@ -102,6 +104,8 @@ namespace StudentsAccounting
             {
                 endpoints.MapControllers();
             });
+
+            seeder.SeedData().Wait();
         }
     }
 }

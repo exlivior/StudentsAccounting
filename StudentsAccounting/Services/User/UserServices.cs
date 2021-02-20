@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using StudentsAccounting.DTOs;
-using StudentsAccounting.Models;
+using StudentsAccounting.Entities;
 
 namespace StudentsAccounting.Services
 {
